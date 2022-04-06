@@ -59,7 +59,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1067273287593',
     projectId: 'taskify-flutter-project',
     storageBucket: 'taskify-flutter-project.appspot.com',
-    iosClientId: '1067273287593-1deu2q7rgb64l8s2bqu5ahliplbgubtd.apps.googleusercontent.com',
+    iosClientId:
+        '1067273287593-1deu2q7rgb64l8s2bqu5ahliplbgubtd.apps.googleusercontent.com',
     iosBundleId: 'com.dartapp.taskify',
   );
 }

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:taskify/constants/routes.dart';
@@ -73,26 +72,32 @@ class _LoginViewState extends State<LoginView> {
               } on FirebaseAuthException catch (e) {
                 switch (e.code) {
                   case 'user-not-found':
-                    showErrorDialog(
+                    await showErrorDialog(
                       context,
                       'User not found',
                     );
                     break;
                   case 'wrong-password':
-                    showErrorDialog(
+                    await showErrorDialog(
                       context,
                       'Wrong password',
                     );
                     break;
+                  case 'user-disabled':
+                    await showErrorDialog(
+                      context,
+                      'User was disabled',
+                    );
+                    break;
                   default:
-                    showErrorDialog(
+                    await showErrorDialog(
                       context,
                       '${e.message} (${e.code})',
                     );
                     break;
                 }
               } catch (e) {
-                showErrorDialog(
+                await showErrorDialog(
                   context,
                   'Error: $e',
                 );

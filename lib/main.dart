@@ -21,6 +21,7 @@ void main() {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     ),
   );
@@ -108,7 +109,7 @@ Future<bool> showLogOutDialog(BuildContext context) {
     builder: (context) {
       return AlertDialog(
         title: const Text('Sign out'),
-        content: const Text('Are you sure you want to Log out?'),
+        content: const Text('Are you sure you want to log out?'),
         actions: [
           TextButton(
             onPressed: () {

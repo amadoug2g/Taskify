@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ void main() {
       routes: {
         '/login/': (context) => const LoginView(),
         '/register/': (context) => const RegisterView(),
+        '/notes/': (context) => const NotesView(),
       },
     ),
   );
@@ -86,7 +86,6 @@ class _NotesViewState extends State<NotesView> {
               default:
                 break;
             }
-            ;
           }, itemBuilder: (context) {
             return const [
               PopupMenuItem<MenuAction>(
@@ -108,7 +107,7 @@ Future<bool> showLogOutDialog(BuildContext context) {
     builder: (context) {
       return AlertDialog(
         title: const Text('Sign out'),
-        content: const Text('Are you sure you want to Logl out?'),
+        content: const Text('Are you sure you want to Log out?'),
         actions: [
           TextButton(
             onPressed: () {

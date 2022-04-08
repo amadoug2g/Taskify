@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taskify/constants/routes.dart';
 import 'package:taskify/services/auth/auth_service.dart';
 import 'package:taskify/views/login_view.dart';
-import 'package:taskify/views/notes/new_note_view.dart';
+import 'package:taskify/views/notes/create_update_note_view.dart';
 import 'package:taskify/views/notes/notes_view.dart';
 import 'package:taskify/views/register_view.dart';
 import 'package:taskify/views/verified_email_view.dart';
@@ -21,7 +21,7 @@ void main() {
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
-        newNoteRoute: (context) => const NewNoteView(),
+        createUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
       },
     ),
   );

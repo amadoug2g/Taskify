@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -116,12 +117,15 @@ class NotesService {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
-      userTable,
+      noteTable,
       where: 'id = ?',
       whereArgs: [id],
     );
 
     if (deletedCount != 1) {
+      log('Delete count: $deletedCount');
+      log('Current note: ' +
+          _notes.where((element) => element.id == id).toList().toString());
       throw CouldNotDeleteNoteException();
     } else {
       _notes.removeWhere((note) => note.id == id);

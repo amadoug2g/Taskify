@@ -9,14 +9,14 @@ import 'crud_exceptions.dart';
 
 class CouldNotUpdateNoteException implements Exception {}
 
-class NoteService {
+class NotesService {
   Database? _db;
 
   List<DatabaseNote> _notes = [];
 
-  static final NoteService _shared = NoteService._sharedInstance();
-  NoteService._sharedInstance();
-  factory NoteService() => _shared;
+  static final NotesService _shared = NotesService._sharedInstance();
+  NotesService._sharedInstance();
+  factory NotesService() => _shared;
 
   final _notesStreamController =
       StreamController<List<DatabaseNote>>.broadcast();

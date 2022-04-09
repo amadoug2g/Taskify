@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:taskify/enums/menu_action.dart';
 import 'package:taskify/services/auth/auth_service.dart';
@@ -80,6 +82,7 @@ class _NotesViewState extends State<NotesView> {
                       case ConnectionState.active:
                         if (snapshot.hasData) {
                           final allNotes = snapshot.data as List<DatabaseNote>;
+                          log(allNotes.toString());
                           return NotesListView(
                             notes: allNotes,
                             onDeleteNote: ((note) async {

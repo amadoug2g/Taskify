@@ -5,15 +5,18 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' show join;
+import 'package:taskify/extensions/list/filter.dart';
+import 'package:taskify/services/auth/auth_service.dart';
+import 'package:taskify/services/auth/auth_user.dart';
 
 import 'crud_exceptions.dart';
-
-class CouldNotUpdateNoteException implements Exception {}
 
 class NotesService {
   Database? _db;
 
   List<DatabaseNote> _notes = [];
+
+  DatabaseUser? _user;
 
   static final NotesService _shared = NotesService._sharedInstance();
   NotesService._sharedInstance() {
@@ -27,14 +30,33 @@ class NotesService {
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
 
-  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
+  Stream<List<DatabaseNote>> get allNotes =>
+      _notesStreamController.stream.filter(
+        (note) {
+          final currentUSer = _user;
+          if (currentUSer != null) {
+            return note.userId == currentUSer.id;
+          } else {
+            throw UserShouldBeSetBeforeReadingAllNotesException();
+          }
+        },
+      );
 
-  Future<DatabaseUser> getOrCreateUser({required String email}) async {
+  Future<DatabaseUser> getOrCreateUser({
+    required String email,
+    bool setAsCustomer = true,
+  }) async {
     try {
       final user = await getUser(email: email);
+      if (setAsCustomer) {
+        _user = user;
+      }
       return user;
     } on CouldNotFindUserException {
       final createdUser = await createUser(email: email);
+      if (setAsCustomer) {
+        _user = createdUser;
+      }
       return createdUser;
     } catch (_) {
       rethrow;
@@ -54,10 +76,14 @@ class NotesService {
 
     await getNote(noteId: note.id);
 
-    final udpatesCount = await db.update(noteTable, {
-      textColumn: text,
-      isSyncedWithCloudColumn: 0,
-    });
+    final udpatesCount = await db.update(
+        noteTable,
+        {
+          textColumn: text,
+          isSyncedWithCloudColumn: 0,
+        },
+        where: 'id = ?',
+        whereArgs: [note.id]);
 
     if (udpatesCount == 0) {
       throw CouldNotUpdateNoteException();

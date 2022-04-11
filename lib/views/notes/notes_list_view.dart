@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:taskify/constants/routes.dart';
-import 'package:taskify/services/crud/notes_service.dart';
-
+import '../../services/cloud/cloud_note.dart';
 import '../../utilities/dialogs/delete_dialog.dart';
 
-typedef NoteCallback = void Function(DatabaseNote note);
-// typedef UpdateNoteCallback = void Function(DatabaseNote note);
+typedef NoteCallback = void Function(CloudNote note);
+// typedef UpdateNoteCallback = void Function(CloudNote note);
 
 class NotesListView extends StatelessWidget {
-  final List<DatabaseNote> notes;
+  final Iterable<CloudNote> notes;
   final NoteCallback onDeleteNote;
   final NoteCallback onUpdateNote;
 
@@ -24,7 +22,7 @@ class NotesListView extends StatelessWidget {
     return ListView.builder(
         itemCount: notes.length,
         itemBuilder: (context, index) {
-          final currentNote = notes[index];
+          final currentNote = notes.elementAt(index);
           return ListTile(
             title: Text(
               currentNote.text,
@@ -32,7 +30,7 @@ class NotesListView extends StatelessWidget {
               softWrap: true,
               overflow: TextOverflow.ellipsis,
             ),
-            subtitle: Text(currentNote.id.toString()),
+            subtitle: Text(currentNote.documentId.toString()),
             trailing: IconButton(
               onPressed: () async {
                 final shouldDelete = await showDeleteDialog(context);
